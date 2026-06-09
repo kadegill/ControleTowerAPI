@@ -1,0 +1,9 @@
+flask
+geopy
+matplotlib
+pandas
+pre-commit==4.3.0
+pytest==8.4.2
+pytest-cov==6.3.0
+pytest-mock
+ruff==0.13.2

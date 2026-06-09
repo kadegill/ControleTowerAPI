@@ -1,0 +1,672 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ControlTower API",
+    "description": "A simple API to view aviation data.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://potential-zebra-5vrxggq9qjqfv557-5000.app.github.dev/",
+      "description": "Airports server"
+    }
+  ],
+  "paths": {
+    "/airports":{
+      "get": {
+        "summary": "Get all airport records.",
+        "operationId": "getAirports",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "query",
+            "description": "The country of airports the user wants to get.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "description": "The city of airports the user wants to get.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "page",
+            "in":  "query",
+            "description": "Page of records the user wants to  get.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/airportResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new airport record.",
+        "operationId": "createAirport",
+        "requestBody": {
+          "description": "Airport information to be saved.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/airportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created airport record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/airportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/airports/{id}": {
+      "get": {
+        "summary": "Get airport by ID.",
+        "operationId": "getAirport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the airport to get.",
+            "schema": {
+            "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/airportResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update airport by ID.",
+        "operationId": "updateAirport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the airport to update.",
+            "schema": {
+            "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated airport data.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/airportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Airport updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/airportRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete airport by ID.",
+        "description": "Delete an airport using it's ID.",
+        "operationId": "deleteAirport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the airport to delete.",
+            "schema": {
+            "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Airport successfully deleted."
+          },
+          "404": {
+            "description": "Airport not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/airlines": {
+      "get": {
+        "summary": "Get all arline records.",
+        "operationId": "getAirlines",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the airline the user wants to get.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "alias",
+            "in": "query",
+            "description": "Alias of the airline the user wants to get.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "callsign",
+            "in": "query",
+            "description": "Call sign of the airline the user wants to get.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "page",
+            "in":  "query",
+            "description": "Page of records the user wants to  get.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/airlineResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "summary": "Create airline record.",
+        "operationId": "createAirline",
+        "requestBody": {
+          "description": "Airline information to be saved.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/airlineRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created airline record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/airlineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/airlines{id}": {
+      "get": {
+        "summary": "Get airline record by ID.",
+        "operationId": "getAirline",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the airline to get.",
+            "schema": {
+            "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/airlineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Airline not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update airline by ID.",
+        "operationId": "Update airline.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the airline to update.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated airline data.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/airlineRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Airport updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/airlineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Airline not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete airline by ID.",
+        "description": "Delete an airline using it's ID.",
+        "operationId": "deleteAirline",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the airline to delete.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Airline successfully deleted."
+          },
+          "404": {
+            "description": "Airline not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/planes": {
+      "get": {
+        "summary": "Get all planes records.",
+        "operationId": "getPlanes",
+        "parameters": [
+          {
+            "name": "iata_code",
+            "in": "query",
+            "description": "IATA code of the plane the user wants to get.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "icao_code",
+            "in": "query",
+            "description": "ICAO code of the plane the user wants to get.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "page",
+            "in":  "query",
+            "description": "Page of records the user wants to  get.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/planeResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/routes": {
+      "get": {
+        "summary": "Get all routes records.",
+        "operationId": "getRoutes",
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/routeResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "airportRequest": {
+        "type": "object",
+        "required": ["AIRPORT_LATITUDE", "AIRPORT_LONGITUDE"],
+        "properties": {
+          "AIRPORT_ID": {
+            "type": "integer",
+            "example": 1
+          },
+          "AIRPORT_NAME": {
+            "type": "string",
+            "example": "Des Moines International Airport"
+          },
+          "AIRPORT_CITY": {
+            "type": "string",
+            "example": "Des Moines"
+          },
+          "AIRPORT_COUNTRY": {
+            "type": "string",
+            "example": "Canada"
+          },
+          "AIRPORT_LATITUDE": {
+            "type": "number",
+            "example": "49.91"
+          },
+          "AIRPORT_LONGITUDE": {
+            "type": "number",
+            "example": "-99.951897"
+          },
+          "AIRPORT_TIMEZONE": {
+            "type": "string",
+            "example": "America/Vancouver"
+          },
+          "AIRPORT_TYPE": {
+            "type": "string",
+            "example": "airport"
+          }
+        }
+      },
+      "airportResponse": {
+        "type":  "object",
+        "properties": {
+          "AIRPORT_ID": {
+            "type": "integer",
+            "example": 1
+          },
+          "AIRPORT_NAME": {
+            "type": "string",
+            "example": "Des Moines International Airport"
+          },
+          "AIRPORT_CITY": {
+            "type": "string",
+            "example": "Des Moines"
+          },
+          "AIRPORT_COUNTRY": {
+            "type": "string",
+            "example": "Canada"
+          },
+          "AIRPORT_LATITUDE": {
+            "type": "number",
+            "example": "49.91"
+          },
+          "AIRPORT_LONGITUDE": {
+            "type": "number",
+            "example": "-99.951897"
+          },
+          "AIRPORT_TIMEZONE": {
+            "type": "string",
+            "example": "America/Vancouver"
+          },
+          "AIRPORT_TYPE": {
+            "type": "string",
+            "example": "airport"
+          }
+        }
+      },
+      "airlineRequest": {
+        "type": "object",
+        "required": ["AIRLINE_NAME"],
+        "properties": {
+          "AIRLINE_NAME": {
+            "type": "string",
+            "example": "Spirit Airlines"
+          },
+          "AIRLINE_ALIAS": {
+            "type": "string",
+            "example": "USKy"
+          },
+          "AIRLINE_IATA_CODE": {
+            "type": "string",
+            "example": "G9"
+          },
+          "AIRLINE_ICAO_CODE": {
+            "type": "string",
+            "example": "BFC"
+          },
+          "AIRLINE_CALLSIGN": {
+            "type": "string",
+            "example": "TAME"
+          },
+          "AIRLINE_COUNTRY": {
+            "type": "string",
+            "example": "Tunisia"
+          },
+          "IS_ACTIVE": {
+            "type": "string",
+            "example": "N"
+          }
+        }
+      },
+      "airlineResponse": {
+          "type": "object",
+          "properties": {
+            "AIRLINE_NAME": {
+              "type": "string",
+              "example": "Spirit Airlines"
+            },
+            "AIRLINE_ALIAS": {
+              "type": "string",
+              "example": "USKy"
+            },
+            "AIRLINE_IATA_CODE": {
+              "type": "string",
+              "example": "G9"
+            },
+            "AIRLINE_ICAO_CODE": {
+              "type": "string",
+              "example": "BFC"
+            },
+            "AIRLINE_CALLSIGN": {
+              "type": "string",
+              "example": "TAME"
+            },
+            "AIRLINE_COUNTRY": {
+              "type": "string",
+              "example": "Tunisia"
+            },
+            "IS_ACTIVE": {
+              "type": "string",
+              "example": "N"
+            }
+          }
+      },
+      "planeResponse": {
+        "type": "object",
+        "properties": {
+          "PLANE_NAME" : {
+            "type": "string",
+            "example": "Airbus A320"
+          },
+          "PLANE_IATA_CODE" : {
+            "type": "string",
+            "example": "ND2"
+          },
+          "PLANE_ICAO_CODE" : {
+            "type": "string",
+            "example": "S601"
+          }
+        }
+      },
+      "routeResponse": {
+        "type": "object",
+        "properties": {
+          "ROUTE_SOURCE": {
+            "type": "string",
+            "example": "AER"
+          },
+          "ROUTE_SOURCE_ID": {
+            "type": "string",
+            "example": "2966"
+          },
+          "ROUTE_DESTINATION": {
+            "type": "string",
+            "example": "MRV"
+          },
+          "ROUTE_DESTINATION_ID": {
+            "type": "string",
+            "example": "2962"
+          },
+          "ROUTE_EQUIPMENT": {
+            "type": "string",
+            "example": "YN7"
+          }
+        }
+      }
+    }
+  }
+}

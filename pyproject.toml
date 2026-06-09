@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  ".", "src",
+]
+addopts = "--cov=src/ --cov-config=.coveragerc --cov-report term-missing"
+
+[tool.ruff]
+line-length=120
+indent-width=4
+fix=true
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    # pydocstyle
+    "D",
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # PEP8 Naming
+    "N",
+    # Pylint
+    "PL",
+]
+ignore = ["D203", "D211", "D212"]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"
+docstring-code-line-length = 190
