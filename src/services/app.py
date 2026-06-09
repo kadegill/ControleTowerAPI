@@ -8,7 +8,7 @@ import pandas as pd
 from flask import Flask, jsonify, request, send_file
 from flask.typing import ResponseReturnValue
 from pandas import errors
-from src.services import db
+import db
 
 DATA = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
